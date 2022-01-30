@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Premain-Class: com.akto.javaagent.AgentMain
+Agent-Class: com.akto.javaagent.AgentMain
+Can-Redefine-Classes: true
