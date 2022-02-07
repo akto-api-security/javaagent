@@ -171,6 +171,7 @@ public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Type
         addConstants(returnFromEnter);
 
         apiCalls.add(returnFromEnter);
+        System.out.println(returnFromEnter);
       }  
     }
 

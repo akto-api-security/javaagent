@@ -11,37 +11,17 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.sun.tools.attach.VirtualMachine;
-
 import com.akto.HttpClientExample;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import net.bytebuddy.ByteBuddy;
 import net.bytebuddy.agent.builder.AgentBuilder;
 
-public class TestHttpClient {
-
-
-    @BeforeClass
-    public static void loadAgent() {
-
-        String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
-        int p = nameOfRunningVM.indexOf('@');
-        String pid = nameOfRunningVM.substring(0, p);
-        String jarFilePath = "target/javaagent-1.0-SNAPSHOT-jar-with-dependencies.jar";
-        try {
-            VirtualMachine vm = VirtualMachine.attach(pid);
-            vm.loadAgent(jarFilePath, "");
-            System.out.println("loaded VM");
-            vm.detach();
-        } catch (Exception e) {
-            System.out.println("exception while loading VM");
-            throw new RuntimeException(e);
-        }
-    }
+public class TestHttpClient extends AgentTest {
 
     @Test
     public void testGetIntercept() {
