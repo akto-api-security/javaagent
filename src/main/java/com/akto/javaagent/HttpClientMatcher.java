@@ -12,13 +12,10 @@ import net.bytebuddy.agent.builder.AgentBuilder.Transformer;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.mongodb.BasicDBObject;
 
 import org.apache.http.Header;
-import org.apache.http.HeaderElement;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpEntityEnclosingRequest;
 import org.apache.http.HttpRequest;
@@ -27,13 +24,12 @@ import org.apache.http.RequestLine;
 import org.apache.http.StatusLine;
 import org.apache.http.util.ByteArrayBuffer;
 
+
 public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<TypeDescription> implements Transformer {
     private static ElementMatcher<TypeDescription> elem = ElementMatchers.isSubTypeOf(org.apache.http.client.HttpClient.class);
 
-    public static final List<BasicDBObject> apiCalls = new ArrayList<>();
-
     boolean debug = false;
-    public static final int MAX_ENTITY_LEN = 10_000_000;
+    public static final int MAX_ENTITY_LEN = 10_000_000; 
 
     @Override
     public DynamicType.Builder<?> transform(
@@ -170,7 +166,7 @@ public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Type
 
         addConstants(returnFromEnter);
 
-        apiCalls.add(returnFromEnter);
+        AgentMain.recordConsumer.consume(returnFromEnter.toJson());
         System.out.println(returnFromEnter);
       }  
     }

@@ -18,8 +18,6 @@ import okhttp3.ResponseBody;
 import okio.Buffer;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import com.mongodb.BasicDBObject;
 
@@ -27,7 +25,6 @@ import net.bytebuddy.agent.builder.AgentBuilder.Transformer;
 
 public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<TypeDescription> implements Transformer {
     private static ElementMatcher<TypeDescription> elem = ElementMatchers.named("okhttp3.RealCall");
-    public static final List<BasicDBObject> apiCalls = new ArrayList<>();
 
     public boolean matches(TypeDescription target) {
         return elem.matches(target.asGenericType().asErasure());
@@ -166,8 +163,8 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
                   addConstants(returnFromEnter);
                   System.out.println(returnFromEnter);
           
-                  apiCalls.add(returnFromEnter);
-            } catch (Exception e) {
+                  AgentMain.recordConsumer.consume(returnFromEnter.toJson());
+                } catch (Exception e) {
                 e.printStackTrace();
             }
 
