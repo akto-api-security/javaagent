@@ -13,7 +13,8 @@ public class Kafka {
         kafkaProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         kafkaProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         kafkaProps.put(ProducerConfig.BATCH_SIZE_CONFIG, 16_384 * 400);
-        kafkaProps.put(ProducerConfig.LINGER_MS_CONFIG, 1000);
+        kafkaProps.put(ProducerConfig.LINGER_MS_CONFIG, 2000);
+        kafkaProps.put(ProducerConfig.ACKS_CONFIG,"1");
         producer = new KafkaProducer<String, String>(kafkaProps);
     }
 

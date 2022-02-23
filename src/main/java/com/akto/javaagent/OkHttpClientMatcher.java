@@ -39,7 +39,6 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
         final ClassLoader classLoader,
         final JavaModule module) {
 
-        System.out.println(typeDescription);  
         debug = true;
         
         final AsmVisitorWrapper methodsVisitor =
@@ -52,8 +51,7 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
         Advice.to(EnterAdviceEnqueue.class)
             .on(
               ElementMatchers.isMethod().and(ElementMatchers.named("enqueue"))
-            );
-        System.out.println("done with: " + typeDescription); 
+            ); 
         return builder.visit(methodsVisitor).visit(enqueueVisitor);
     }
 
@@ -161,8 +159,6 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
                   returnFromEnter.put("status", response.message());
                   returnFromEnter.put("responsePayload", "");        
                   addConstants(returnFromEnter);
-                  System.out.println(returnFromEnter);
-          
                   AgentMain.recordConsumer.consume(returnFromEnter.toJson());
                 } catch (Exception e) {
                 e.printStackTrace();

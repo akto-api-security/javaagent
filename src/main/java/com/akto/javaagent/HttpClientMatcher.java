@@ -167,7 +167,6 @@ public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Type
         addConstants(returnFromEnter);
 
         AgentMain.recordConsumer.consume(returnFromEnter.toJson());
-        System.out.println(returnFromEnter);
       }  
     }
 

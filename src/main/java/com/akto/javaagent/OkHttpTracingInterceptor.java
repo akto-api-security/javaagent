@@ -33,7 +33,6 @@ public class OkHttpTracingInterceptor implements Callback {
                 OkHttpClientMatcher.addConstants(ret);
 
                 AgentMain.recordConsumer.consume(ret.toJson());
-                System.out.println(ret);
             }
         } catch (Exception e) {
             e.printStackTrace();

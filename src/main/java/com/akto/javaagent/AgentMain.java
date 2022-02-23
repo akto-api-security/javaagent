@@ -12,7 +12,6 @@ public class AgentMain {
 
   public static void premain(final String agentArgs,
                  final Instrumentation inst) throws Exception {
-    System.out.printf("Starting %s\n", AgentMain.class.getSimpleName());
 
     recordConsumer = new RecordConsumer.KafkaSender(agentArgs);
 
@@ -26,10 +25,10 @@ public class AgentMain {
   }
   public static void agentmain(final String agentArgs,
                  final Instrumentation inst) throws Exception {
-    System.out.printf("Starting %s\n", AgentMain.class.getSimpleName());
-
-    recordConsumer = new RecordConsumer.QueueRecorder();
-
+    
+    System.out.println("[Akto] Kafka IP : "+ agentArgs);
+    recordConsumer = new RecordConsumer.KafkaSender(agentArgs);
+    
     new AgentBuilder.Default()
         .type(new HttpClientMatcher())
         .transform(new HttpClientMatcher())
