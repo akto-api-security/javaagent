@@ -63,9 +63,9 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
         }
   
 
-        headers.forEach(h -> {
-            ret.put(h.getFirst(), h.getSecond());
-        });
+        for (int i = 0; i < headers.size(); i ++) {
+          ret.put(headers.name(i), headers.value(i));
+        }
 
         return ret.toJson();
   
@@ -83,7 +83,7 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
         String ret = "";
   
         try {
-            if (entity == null || entity.contentLength() == 0 || entity.isOneShot()) {
+            if (entity == null || entity.contentLength() == 0) {
               return ret;
             }
 
@@ -154,10 +154,10 @@ public class OkHttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Ty
           
                   Response response = (Response) responseObj;
 
-                  returnFromEnter.put("statusCode", response.code()+"");
+                  returnFromEnter.put("statusCode", "200");
                   returnFromEnter.put("responseHeaders", toJsonStr(response.headers()));
                   returnFromEnter.put("status", response.message());
-                  returnFromEnter.put("responsePayload", "");        
+                  returnFromEnter.put("responsePayload", "{}");        
                   addConstants(returnFromEnter);
                   AgentMain.recordConsumer.consume(returnFromEnter.toJson());
                 } catch (Exception e) {

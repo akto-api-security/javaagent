@@ -59,6 +59,7 @@ public interface RecordConsumer {
 
         @Override
         public void consume(String s) {
+            System.out.println("[Akto] Request Recieved : " + s);
             apiCalls.add(s);
         }
     }
