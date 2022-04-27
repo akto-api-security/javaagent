@@ -44,13 +44,6 @@ public class Main {
     
     public static void main(String[] args) {
         loadAgent(args[1], args[0]);
-        while(true) {
-            try { 
-		Thread.sleep(100);
-	    } catch(Exception e) {
-
-	    }
-        }
     }
 
 }
