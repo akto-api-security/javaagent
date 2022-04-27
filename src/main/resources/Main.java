@@ -19,17 +19,17 @@ public class Main {
         System.out.println("classpath: " + System.getProperty("java.class.path"));
 
         if (!started) {
-    final Map<Integer, LocalVirtualMachine> virtualMachines = LocalVirtualMachine.getAllVirtualMachines();
-    for (final Entry<Integer, LocalVirtualMachine> entry : virtualMachines.entrySet()) {
-        System.out.println(entry.getKey() + " : " + entry.getValue().displayName());
-    }
+            final Map<Integer, LocalVirtualMachine> virtualMachines = LocalVirtualMachine.getAllVirtualMachines();
+            for (final Entry<Integer, LocalVirtualMachine> entry : virtualMachines.entrySet()) {
+                System.out.println(entry.getKey() + " : " + entry.getValue().displayName());
+            }
             started = true;
             String nameOfRunningVM = ManagementFactory.getRuntimeMXBean().getName();
             //int p = nameOfRunningVM.indexOf('@');
-	    System.out.println("nameOfRunningVM: " + nameOfRunningVM);
+	        System.out.println("nameOfRunningVM: " + nameOfRunningVM);
             //String pid = nameOfRunningVM.substring(0, p);
-            String jarFilePath = "/Users/ankushjain/akto_code/javaagent/target/javaagent-1.0-SNAPSHOT-jar-with-dependencies.jar";
-	    System.out.println("pid: " + pid);
+            String jarFilePath = "javaagent-1.0-SNAPSHOT-jar-with-dependencies.jar";
+	        System.out.println("pid: " + pid);
             try {
                 VirtualMachine vm = VirtualMachine.attach(pid);
                 vm.loadAgent(jarFilePath, kafkaIP);
