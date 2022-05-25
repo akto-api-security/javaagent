@@ -13,7 +13,7 @@ public class AgentMain {
   public static void premain(final String agentArgs,
                  final Instrumentation inst) throws Exception {
 
-    recordConsumer = new RecordConsumer.KafkaSender(agentArgs);
+    recordConsumer = new RecordConsumer.QueueRecorder();
 
     new AgentBuilder.Default()
         .type(new HttpClientMatcher())
@@ -27,7 +27,7 @@ public class AgentMain {
                  final Instrumentation inst) throws Exception {
     
     System.out.println("[Akto] Kafka IP : "+ agentArgs);
-    recordConsumer = new RecordConsumer.KafkaSender(agentArgs);
+    recordConsumer = new RecordConsumer.QueueRecorder();
     
     new AgentBuilder.Default()
         .type(new HttpClientMatcher())

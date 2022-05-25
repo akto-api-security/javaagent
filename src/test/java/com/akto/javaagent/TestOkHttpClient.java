@@ -16,13 +16,13 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-public class TestOkHttpClient extends AgentTest {
+public class TestOkHttpClient {
     @Test
     public void testGetIntercept() throws IOException {
-        OkHttpClientExample.sendGetAsync();
-        OkHttpClientExample.sendGetSync();
-        OkHttpClientExample.sendPostForm();
-        OkHttpClientExample.sendPostJson();
+        // OkHttpClientExample.sendGetAsync();
+        // OkHttpClientExample.sendGetSync();
+        // OkHttpClientExample.sendPostForm();
+        // OkHttpClientExample.sendPostJson();
     }
 
     private static List<String> expectedOutput() {
@@ -43,7 +43,7 @@ public class TestOkHttpClient extends AgentTest {
         return ret;
     }
 
-    @AfterClass
+    // @AfterClass
     public static void unloadAgent() {
         try {
             Class classToLoad = Class.forName("com.akto.utils.RecordConsumer$QueueRecorder");

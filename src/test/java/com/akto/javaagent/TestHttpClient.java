@@ -26,10 +26,8 @@ public class TestHttpClient extends AgentTest {
     @Test
     public void testGetIntercept() {
         try {
-            HttpClientExample.sendGet();
-            HttpClientExample.sendPost();
-            HttpClientExample.sendPost2();
-        } catch (IOException e) {
+            HttpClientExample.main(new String[]{"arn:aws:kms:us-east-1:233905125530:key/e4af77cf-f37a-4ca0-bc60-3cb51d6361b8", "plaintext"});
+        } catch (Exception e) {
             
             e.printStackTrace();
         }
@@ -53,7 +51,7 @@ public class TestHttpClient extends AgentTest {
         return ret;
     }
 
-    @AfterClass
+    // @AfterClass
     public static void unloadAgent() {
         try {
             Class classToLoad = Class.forName("com.akto.utils.RecordConsumer$QueueRecorder");

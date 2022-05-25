@@ -23,6 +23,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.RequestLine;
 import org.apache.http.StatusLine;
 import org.apache.http.util.ByteArrayBuffer;
+import com.amazonaws.http.RepeatableInputStreamRequestEntity;
+import com.amazonaws.internal.ReleasableInputStream;
 
 
 public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<TypeDescription> implements Transformer {
@@ -76,30 +78,53 @@ public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Type
 
     public static String readEntity(HttpEntity entity) {
       String ret = "";
-
+      System.out.println("is repeatable: " + entity.isRepeatable());
+      System.out.println("is streaming: " + entity.isStreaming());
       if (entity == null || entity.getContentLength() == 0 || !entity.isRepeatable()) {
         return ret;
       }
 
+      RepeatableInputStreamRequestEntity awsEntity = (RepeatableInputStreamRequestEntity) entity;
+
+      System.out.println("reached here 2...." + entity.getClass() + " " + entity.	getContentEncoding() + " " + entity.getContentType() + " " + entity.isChunked() + " " + entity.isStreaming());
+
       try {
           final InputStream instream = entity.getContent();
+          System.out.println(instream.getClass());
+          System.out.println("markSupported: " + instream.markSupported());
+          ReleasableInputStream awsstream = (ReleasableInputStream) instream;
+          System.out.println("isCloseDisabled: " + awsstream.isCloseDisabled());
+          System.out.println("available: " + instream.available());
+          
+
           if (instream == null || entity.getContentLength() > MAX_ENTITY_LEN) {
               return ret;
           }
 
           int i = (int)entity.getContentLength();
+          System.out.println("entity.getContentLength(): " + i);
           if (i < 0) {
               i = 4096;
           }
           final ByteArrayBuffer buffer = new ByteArrayBuffer(i);
+          System.out.println("reached here 3....");
           final byte[] tmp = new byte[4096];
           int l;
+          
           while((l = instream.read(tmp)) != -1) {
               buffer.append(tmp, 0, l);
           }
-          return new String(buffer.toByteArray(), StandardCharsets.ISO_8859_1);
-      } catch (IOException e) {
+          System.out.println("reached here 4....");
+          ret = new String(buffer.toByteArray(), StandardCharsets.ISO_8859_1);
+          System.out.println("reached here 5....: " + ret);
+          System.out.println("before reset available: " + instream.available());
+          awsEntity.getContent().reset();
+          System.out.println("after reset available: " + instream.available());
 
+          return ret;
+          
+      } catch (Exception e) {
+        e.printStackTrace();
       }
       
       return ret;
@@ -125,7 +150,7 @@ public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Type
               ret.put("requestHeaders", toJsonStr(request.getAllHeaders()));
 
               String requestPayload = "";
-
+              System.out.println(request);
               if (request instanceof HttpEntityEnclosingRequest) {
                 HttpEntityEnclosingRequest enclosingRequest = (HttpEntityEnclosingRequest) request;
                 HttpEntity entity = enclosingRequest.getEntity();
@@ -136,7 +161,7 @@ public class HttpClientMatcher extends ElementMatcher.Junction.AbstractBase<Type
             }
           }
         } catch (Exception e) {
-
+          e.printStackTrace();
         }
         return ret;
         
